@@ -1,10 +1,10 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 ARG GID=1000
 ARG UID=1000
 
-RUN addgroup --gid $GID node \
-    && adduser --gid $GID --uid $UID --disabled-password --gecos node node
+RUN groupadd --gid $GID node \
+    && useradd --gid $GID --uid $UID --comment node node
 
 RUN apt-get update \
     && apt-get dist-upgrade -y \
@@ -19,8 +19,6 @@ RUN apt-get update \
          gcc-12-multilib \
          g++-12-multilib \
          make \
-         python3 \
-         python3-distutils \
          ccache \
          xz-utils
 
