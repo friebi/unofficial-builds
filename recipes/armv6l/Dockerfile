@@ -35,7 +35,13 @@ RUN apt-get update \
         clang-19 \
         lld-19 \
         crossbuild-essential-armhf \
-        libstdc++-14-dev-armhf-cross
+        libstdc++-14-dev-i386-cross \
+        libstdc++-14-dev-armhf-cross \
+        libgcc-14-dev-armhf-cross \
+        libatomic1-armhf-cross
+
+# Fix ld script for sysroot compatibility - use relative paths
+# RUN sed -i 's|/usr/arm-linux-gnueabihf/lib/||g' /usr/arm-linux-gnueabihf/lib/libc.so
 
 COPY --chown=node:node run.sh /home/node/run.sh
 
