@@ -3,25 +3,8 @@ FROM debian:trixie-slim
 ARG GID=1000
 ARG UID=1000
 
-# Check if group already exists
-RUN if getent group $GID >/dev/null 2>&1; then \
-        # If it does, rename it to 'node'
-        EXISTING_GROUP=$(getent group $GID | cut --delimiter=: --fields=1); \
-        groupmod --new-name node $EXISTING_GROUP; \
-    else \
-        # If it doesn't, create it with the specified GID
-        groupadd --gid $GID node; \
-    fi
-
-# Check if user already exists
-RUN if id --user $UID >/dev/null 2>&1; then \
-        # If it does, rename it to 'node' and change its group to 'node'
-        EXISTING_USER=$(getent passwd $UID | cut --delimiter=: --fields=1); \
-        usermod --gid $GID --login node $EXISTING_USER; \
-    else \
-        # If it doesn't, create it with the specified UID and GID
-        useradd --gid $GID --uid $UID --comment node node; \
-    fi
+RUN groupadd --gid $GID node \
+    && useradd --gid $GID --uid $UID --comment node node
 
 RUN apt-get update \
     && apt-get dist-upgrade -y \
@@ -37,11 +20,10 @@ RUN apt-get update \
         crossbuild-essential-armhf \
         libstdc++-14-dev-i386-cross \
         libstdc++-14-dev-armhf-cross \
+        libgcc-14-dev-i386-cross \
         libgcc-14-dev-armhf-cross \
+        libatomic1-i386-cross \
         libatomic1-armhf-cross
-
-# Fix ld script for sysroot compatibility - use relative paths
-# RUN sed -i 's|/usr/arm-linux-gnueabihf/lib/||g' /usr/arm-linux-gnueabihf/lib/libc.so
 
 COPY --chown=node:node run.sh /home/node/run.sh
 

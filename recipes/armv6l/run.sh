@@ -29,12 +29,8 @@ cd "node-${fullversion}"
 export CCACHE_BASEDIR="$PWD"
 export CC_host="ccache clang-19 -m32"
 export CXX_host="ccache clang++-19 -m32"
-export CC="ccache clang-19 --target=arm-linux-gnueabihf --sysroot=/usr/arm-linux-gnueabihf --gcc-toolchain=/usr/lib/gcc-cross/arm-linux-gnueabihf \
-          -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__"
-export CXX="ccache clang++-19 --target=arm-linux-gnueabihf --sysroot=/usr/arm-linux-gnueabihf --gcc-toolchain=/usr/lib/gcc-cross/arm-linux-gnueabihf \
-          -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__ -I/usr/arm-linux-gnueabihf/include -I/usr/arm-linux-gnueabihf/include/c++/14 -I/usr/arm-linux-gnueabihf/include/c++/14/arm-linux-gnueabihf"
-
-export LDFLAGS="--sysroot=/usr/arm-linux-gnueabihf -L/usr/arm-linux-gnueabihf/lib -L/usr/lib/gcc-cross/arm-linux-gnueabihf/14 -B/usr/arm-linux-gnueabihf/lib -B/usr/lib/gcc-cross/arm-linux-gnueabihf/14"
+export CC="ccache clang-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__"
+export CXX="ccache clang++-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__"
 
 make -j$(getconf _NPROCESSORS_ONLN) binary V= \
   DESTCPU="arm" \
