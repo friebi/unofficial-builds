@@ -29,8 +29,8 @@ cd "node-${fullversion}"
 export CCACHE_BASEDIR="$PWD"
 export CC_host="ccache clang-19"
 export CXX_host="ccache clang++-19"
-export CC="ccache clang-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__"
-export CXX="ccache clang++-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__"
+export CC="ccache clang-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__ -Xclang -target-feature -Xclang +db"
+export CXX="ccache clang++-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__ -Xclang -target-feature -Xclang +db"
 
 make -j$(getconf _NPROCESSORS_ONLN) binary V= \
   DESTCPU="arm" \
