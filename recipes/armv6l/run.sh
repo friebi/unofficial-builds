@@ -13,7 +13,7 @@ source_url="$7"
 source_urlbase="$8"
 config_flags=
 
-cd ~
+cd /home/node
 
 tar -xf node.tar.xz
 
