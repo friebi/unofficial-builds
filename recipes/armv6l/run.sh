@@ -13,18 +13,16 @@ source_url="$7"
 source_urlbase="$8"
 config_flags=
 
-cd /home/node
+cd ~
 
 tar -xf node.tar.xz
 
 # configuring cares correctly to not use sys/random.h on this target
-cd "node-${fullversion}"/deps/cares/config/linux
+cd "node-${fullversion}"
+pushd deps/cares/config/linux
 sed -i 's/define HAVE_SYS_RANDOM_H 1/undef HAVE_SYS_RANDOM_H/g' ./ares_config.h
 sed -i 's/define HAVE_GETRANDOM 1/undef HAVE_GETRANDOM/g' ./ares_config.h
-
-cd /home/node
-
-cd "node-${fullversion}"
+popd
 
 export CCACHE_BASEDIR="$PWD"
 export CC_host="ccache clang-22"

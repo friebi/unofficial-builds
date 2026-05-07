@@ -116,9 +116,9 @@ fi
 ## -- RUN BUILD -- ##
 
 echo "Building ${recipe} recipe..."
-sourcemount="${sourcefile}:/home/node/node.tar.xz"
+sourcemount="${sourcefile}:/home/ubuntu/node.tar.xz"
 stagingmount="${stagingoutdir}:/out"
-ccachemount="${ccachedir}/${recipe}/:/home/node/.ccache/"
+ccachemount="${ccachedir}/${recipe}/:/home/ubuntu/.ccache/"
 mkdir -p "${ccachedir}/${recipe}"
 docker run --rm \
   --user=${USER_ID} \
