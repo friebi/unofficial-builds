@@ -24,11 +24,16 @@ sed -i 's/define HAVE_SYS_RANDOM_H 1/undef HAVE_SYS_RANDOM_H/g' ./ares_config.h
 sed -i 's/define HAVE_GETRANDOM 1/undef HAVE_GETRANDOM/g' ./ares_config.h
 popd
 
+# re-enable armv6 for Node v26.1.0 and later
+if [[ $(echo -e "${fullversion}\nv26.1.0" | sort -rV | head -n1) == "${fullversion}" ]]; then
+  git apply /home/node/enable-armv6.patch;
+fi
+
 export CCACHE_BASEDIR="$PWD"
 export CC_host="ccache clang-19"
 export CXX_host="ccache clang++-19"
-export CC="ccache clang-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__ -Xclang -target-feature -Xclang +db"
-export CXX="ccache clang++-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__ -Xclang -target-feature -Xclang +db"
+export CC="ccache clang-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__"
+export CXX="ccache clang++-19 --target=arm-linux-gnueabihf -march=armv6zk -mfpu=vfp -mfloat-abi=hard -U__ILP32__"
 
 make -j$(getconf _NPROCESSORS_ONLN) binary V= \
   DESTCPU="arm" \
