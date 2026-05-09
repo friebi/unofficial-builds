@@ -16,17 +16,20 @@ RUN dpkg --add-architecture i386 \
         make \
         ccache \
         xz-utils \
+    && apt-get install -y \
+        crossbuild-essential-armhf \
+        libstdc++-12-dev-armhf-cross \
+        libgcc-12-dev-armhf-cross \
+        libatomic1-armhf-cross \
+    && apt-get install -y \
         clang-19:i386 \
         lld-19:i386 \
-        crossbuild-essential-armhf \
-        libstdc++-14-dev:i386 \
-        libstdc++-14-dev-armhf-cross \
-        libgcc-14-dev:i386 \
-        libgcc-14-dev-armhf-cross \
-        libatomic1:i386 \
-        libatomic1-armhf-cross
+        libstdc++-12-dev:i386 \
+        libgcc-12-dev:i386 \
+        libatomic1:i386
 
 COPY --chown=node:node run.sh /home/node/run.sh
+COPY --chown=node:node enable-armv6.patch /home/node/enable-armv6.patch
 
 VOLUME /home/node/.ccache
 VOLUME /out
